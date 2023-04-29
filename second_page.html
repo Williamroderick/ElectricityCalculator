@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Usage Calculator - Step 2</title>
+  <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+  <a href="index.html">
+    <img id="logo" src="LOLZ.png" alt="Logo">
+  </a>
+  <div class="background-animation">
+    <video class="background-video" autoplay muted loop>
+      <source src="https://v4.cdnpk.net/videvo_files/video/free/video0485/large_watermarked/_import_61a737dc140736.33998648_FPpreview.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="container">
+    <h1>Electricity Usage Calculator</h1>
+  <form id="energyForm">
+    <table>
+      <thead>
+        <tr>
+          <th>Appliance</th>
+          <th>Usage/Day</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="applianceTableBody">
+        <!-- Dynamic rows will be generated here -->
+      </tbody>
+    </table>
+    <button type="submit">Calculate</button>
+  </form>
+  <div id="result"></div>
+  <script src="script2.js"></script>
+</body>
+</html>

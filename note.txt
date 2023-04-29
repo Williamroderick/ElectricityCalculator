@@ -1,0 +1,403 @@
+Page 1:
+main.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electricity Usage Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-animation">
+      <video class="background-video" autoplay muted loop>
+        <source src="https://v4.cdnpk.net/videvo_files/video/free/video0485/large_watermarked/_import_61a73677aa4e52.74342147_FPpreview.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="container">
+      <h1>Energy Usage Calculator</h1>
+    <form id="energyForm">
+      <fieldset>
+        <legend>Select appliances</legend>
+        <div class="form-group">
+          <input type="checkbox" id="lights" name="lights" />
+          <label for="lights">Lights</label><br />
+          <input type="checkbox" id="fridge" name="fridge" />
+          <label for="fridge">Fridge</label><br />
+          <input
+            type="checkbox"
+            id="desktop_computer"
+            name="desktop_computer"
+          />
+          <label for="desktop_computer">Desktop Computer</label><br />
+          <input type="checkbox" id="stove" name="stove" />
+          <label for="stove">Stove</label><br />
+          <input type="checkbox" id="microwave" name="microwave" />
+          <label for="microwave">Microwave</label><br />
+          <input type="checkbox" id="heater" name="heater" />
+          <label for="heater">Heater</label><br />
+          <input
+            type="checkbox"
+            id="smartphone_charger"
+            name="smartphone_charger"
+          />
+          <label for="smartphone_charger">Smartphone Charger</label><br />
+          <input type="checkbox" id="tablet_charger" name="tablet_charger" />
+          <label for="tablet_charger">Tablet Charger</label><br />
+          <input type="checkbox" id="tv" name="tv" />
+          <label for="tv">TV</label><br />
+          <input type="checkbox" id="electric_fan" name="electric_fan" />
+          <label for="electric_fan">Electric Fan</label><br />
+          <input type="checkbox" id="rice_cooker" name="rice_cooker" />
+          <label for="rice_cooker">Rice Cooker</label><br />
+          <input type="checkbox" id="air_conditioner" name="air_conditioner" />
+          <label for="air_conditioner">Air Conditioner</label><br />
+        </div>
+      </fieldset>
+    <div class="form-group">
+      <label for="zipcode">Zip Code:</label>
+      <input type="text" id="zipcode" name="zipcode" required>
+    </div>
+    <div class="form-group">
+      <label for="price_goal">Price Goal (USD):</label>
+      <input type="number" id="price_goal" name="price_goal" required>
+    </div>
+
+    <button type="submit">Next</button>
+  </form>
+  <div id="result"></div>
+  <script src="script1.js"></script>
+</body>
+</html>
+script1.js
+document.getElementById("energyForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  storeSelectedAppliancesAndGoToNext();
+});
+
+function storeSelectedAppliancesAndGoToNext() {
+  const appliances = [
+    { id: "lights", label: "Lights", power: 0.060 },
+    { id: "fridge", label: "Fridge", power: 1.200 },
+    { id: "desktop_computer", label: "Desktop Computer", power: 0.300 },
+    { id: "stove", label: "Stove", power: 3.000 },
+    { id: "microwave", label: "Microwave", power: 1.500 },
+    { id: "heater", label: "Heater", power: 1.500 },
+    { id: "smartphone_charger", label: "Smartphone Charger", power: 0.005 },
+    { id: "tablet_charger", label: "Tablet Charger", power: 0.010 },
+    { id: "tv", label: "TV", power: 0.200 },
+    { id: "electric_fan", label: "Electric Fan", power: 0.080 },
+    { id: "rice_cooker", label: "Rice Cooker", power: 0.500 },
+    { id: "air_conditioner", label: "Air Conditioner", power: 1.500 },
+  ];
+
+  const selectedAppliances = appliances.filter((appliance) => document.getElementById(appliance.id).checked);
+
+  localStorage.setItem("selectedAppliances", JSON.stringify(selectedAppliances));
+  localStorage.setItem("zipcode", document.getElementById("zipcode").value);
+  localStorage.setItem("price_goal", document.getElementById("price_goal").value);
+
+  // Redirect to the second page
+  window.location.href = "second_page.html";
+}
+Page 2:
+second_page.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Usage Calculator - Step 2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-animation">
+    <video class="background-video" autoplay muted loop>
+      <source src="https://v4.cdnpk.net/videvo_files/video/free/video0485/large_watermarked/_import_61a73677aa4e52.74342147_FPpreview.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="container">
+    <h1>Energy Usage Calculator</h1>
+  <form id="energyForm">
+    <table>
+      <thead>
+        <tr>
+          <th>Appliance</th>
+          <th>Usage</th>
+          <th>Time</th>
+          <th>Lightbulbs</th> <!-- Add a new column header for lightbulbs -->
+        </tr>
+      </thead>
+      <tbody id="applianceTableBody">
+        <!-- Dynamic rows will be generated here -->
+      </tbody>
+    </table>
+    <button type="submit">Calculate</button>
+  </form>
+  <div id="result"></div>
+  <script src="script2.js"></script>
+</body>
+</html>
+script2.js
+let selectedAppliances;
+
+document.addEventListener("DOMContentLoaded", function () {
+  selectedAppliances = JSON.parse(localStorage.getItem("selectedAppliances"));
+  const tableBody = document.getElementById("applianceTableBody");
+
+  selectedAppliances.forEach((appliance) => {
+    const row = document.createElement("tr");
+
+    const applianceNameCell = document.createElement("td");
+    applianceNameCell.textContent = appliance.label;
+    row.appendChild(applianceNameCell);
+
+    const usageInputCell = document.createElement("td");
+    const usageInput = document.createElement("input");
+    usageInput.type = "number";
+    usageInput.id = `${appliance.id}Usage`;
+    usageInputCell.appendChild(usageInput);
+    row.appendChild(usageInputCell);
+
+    const timeUnitSelectCell = document.createElement("td");
+    const timeUnitSelect = document.createElement("select");
+    timeUnitSelect.id = `${appliance.id}TimeUnit`;
+
+    const hourOption = document.createElement("option");
+    hourOption.value = "hours";
+    hourOption.textContent = "Hours";
+    timeUnitSelect.appendChild(hourOption);
+
+    const minuteOption = document.createElement("option");
+    minuteOption.value = "minutes";
+    minuteOption.textContent = "Minutes";
+    timeUnitSelect.appendChild(minuteOption);
+
+    timeUnitSelectCell.appendChild(timeUnitSelect);
+    row.appendChild(timeUnitSelectCell);
+
+    const lightbulbsInputCell = document.createElement("td"); // Create a new cell for the number of lightbulbs input
+    const lightbulbsInput = document.createElement("input");
+    lightbulbsInput.type = "number";
+    lightbulbsInput.id = `${appliance.id}Lightbulbs`;
+    lightbulbsInputCell.appendChild(lightbulbsInput);
+    row.appendChild(lightbulbsInputCell); // Add the new cell to the row
+
+    tableBody.appendChild(row);
+  });
+
+  const energyForm = document.getElementById("energyForm");
+  energyForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    calculateEnergyUsage();
+  });
+});
+
+function calculateEnergyUsage() {
+    const usageData = [];
+  
+    selectedAppliances.forEach((appliance) => {
+      const usageInput = document.getElementById(`${appliance.id}Usage`);
+      const timeUnitSelect = document.getElementById(`${appliance.id}TimeUnit`);
+      const lightbulbsInput = document.getElementById(`${appliance.id}Lightbulbs`); // Get the number of lightbulbs input
+  
+      console.log(`appliance: ${appliance.label}`);
+      console.log(`usageInput: ${usageInput.value}`);
+      console.log(`timeUnitSelect: ${timeUnitSelect.value}`);
+      console.log(`lightbulbsInput: ${lightbulbsInput.value}`);
+  
+      const usageValue = parseFloat(usageInput.value);
+      const timeUnitValue = timeUnitSelect.value;
+      const lightbulbsValue = lightbulbsInput ? parseInt(lightbulbsInput.value) : 0; // Parse the number of lightbulbs as an integer, or use 0 if the input is null
+  
+      console.log(`usageValue: ${usageValue}`);
+      console.log(`timeUnitValue: ${timeUnitValue}`);
+      console.log(`lightbulbsValue: ${lightbulbsValue}`);
+  
+      let kilowatts = 0;
+  
+      if (appliance.type === "light") { // Adjust the calculation for lightbulbs
+        kilowatts = usageValue * lightbulbsValue * appliance.power;
+      } else {
+        if (timeUnitValue === "hours") {
+          kilowatts = usageValue * appliance.power;
+        } else if (timeUnitValue === "minutes") {
+          kilowatts = (usageValue / 60) * appliance.power;
+        }
+      }
+  
+      const monthlyKilowatts = kilowatts * 24 * 30;
+      const cost = monthlyKilowatts * 0.33;
+  
+      usageData.push({
+        label: appliance.label,
+        kilowatts: kilowatts,
+        cost: cost,
+      });
+    });
+  
+    localStorage.setItem("usageData", JSON.stringify(usageData));
+  
+    // Save the usage data to history
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    history.push(usageData);
+    localStorage.setItem("history", JSON.stringify(history));
+  
+    // Redirect to the results page
+    window.location.href = "results.html";
+  }
+Page 3:
+results.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Usage Calculator - Results</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <div class="background-animation">
+        <video class="background-video" autoplay muted loop>
+            <source src="https://v4.cdnpk.net/videvo_files/video/free/video0485/large_watermarked/_import_61a73677aa4e52.74342147_FPpreview.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="container">
+        <h1>Electricity Spending Results</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Appliance</th>
+                    <th>Energy Usage (kW) per month</th>
+                    <th>Cost (USD) per month</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+                <!-- Dynamic rows will be generated here -->
+            </tbody>
+        </table>
+        <div id="totalResults">
+            <p><strong>Total Energy Usage:</strong> <span id="totalKilowatts">3.72</span> 
+                kW per month &nbsp; <strong>Total Cost:</strong> $<span id="totalCost">36.83</span> per month</p>
+
+        </div>
+        <!-- Add this inside the .container div, after the #totalResults div -->
+        <div id="messageContainer">
+            <div id="messageBox">
+                <!-- The message will be generated here by the JavaScript -->
+            </div>
+            <div id="chartContainer">
+                <canvas id="totalSpendingChart"></canvas>
+            </div>            
+            <div id="imageContainer">
+                <img id="resultImage" src="smile.png" alt="Result Image">
+            </div>
+        </div>
+    </div>
+    <script src="script3.js"></script>
+</body>
+</html>
+
+script3.js
+document.addEventListener("DOMContentLoaded", function () {
+    
+    const usageData = JSON.parse(localStorage.getItem("usageData"));
+    const tableBody = document.getElementById("resultsTableBody");
+    let totalCost = 0;
+  
+    usageData.forEach((data) => {
+      const row = document.createElement("tr");
+  
+      const applianceNameCell = document.createElement("td");
+      applianceNameCell.textContent = data.label;
+      row.appendChild(applianceNameCell);
+  
+      const usageCell = document.createElement("td");
+      usageCell.textContent = data.kilowatts.toFixed(2);
+      row.appendChild(usageCell);
+  
+      const costCell = document.createElement("td");
+      const cost = data.kilowatts * 0.33 * 30; // multiply by 30 for a month
+      costCell.textContent = cost.toFixed(2);
+      row.appendChild(costCell);
+  
+      tableBody.appendChild(row);
+      totalCost += cost;
+      createBarGraph(totalCost, parseFloat(localStorage.getItem("price_goal")));
+
+    });
+  
+    const totalKilowatts = usageData.reduce((total, data) => total + data.kilowatts, 0);
+    document.getElementById("totalKilowatts").textContent = totalKilowatts.toFixed(2);
+  
+    document.getElementById("totalCost").textContent = totalCost.toFixed(2);
+    displayPriceGoalMessage();
+  });
+  function displayPriceGoalMessage() {
+    const priceGoal = parseFloat(localStorage.getItem("price_goal"));
+    const totalCost = parseFloat(document.getElementById("totalCost").textContent);
+
+    const messageBox = document.getElementById("messageBox");
+    const resultImage = document.getElementById("resultImage");
+
+    if (totalCost > priceGoal) {
+        messageBox.style.color = "red";
+        messageBox.textContent = "YOUR ELECTRICITY SPENDING IS HIGHER THAN THE GOAL";
+        resultImage.setAttribute("src", "Wrong.png");
+    } else {
+        messageBox.style.color = "green";
+        messageBox.textContent = "GOOD JOB! YOUR ELECTRICITY SPENDING IS LOWER THAN THE GOAL";
+        resultImage.setAttribute("src", "smile.png");
+    }
+}
+function createBarGraph(totalCost, priceGoal) {
+    const ctx = document.getElementById("totalSpendingChart").getContext("2d");
+
+    const chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Total Spending", "Goal"],
+            datasets: [{
+                data: [totalCost, priceGoal],
+                backgroundColor: ["rgba(75, 192, 192, 0.6)", "rgba(255, 206, 86, 0.6)"],
+                borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 206, 86, 1)"],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            animation: {
+                duration: 1000,
+                easing: "easeOutCubic"
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Cost (USD)"
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+
+
+
+Lights: $11.41
+Fridge :  $5.85
+Desktop computer: $12.88.
+Stove: $11
+Microwave: $0.56
+Heater: $60
+Smartphone charger: $0.01
+Tablet charger: $0.01
+TV: $5.24
+Electric fan: $2.17
+Rice cooker: $6
+Air conditioner: $60

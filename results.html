@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-database-compat.js"></script>
+    
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Usage Calculator - Results</title>
+    <link rel="stylesheet" href="styles2.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <a href="index.html">
+        <img id="logo" src="LOLZ.png" alt="Logo">
+      </a>
+    <div class="background-animation">
+        <video class="background-video" autoplay muted loop>
+            <source src="https://v4.cdnpk.net/videvo_files/video/free/video0485/large_watermarked/_import_61a737dc140736.33998648_FPpreview.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="container">
+        
+        <h1>Electricity Spending Results</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Appliance</th>
+                    <th>Energy Usage (kW) per month</th>
+                    <th>Cost (USD) per month</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+                <!-- Dynamic rows will be generated here -->
+            </tbody>
+        </table>
+        <div id="totalResults">
+            <p><strong>Total Energy Usage:</strong> <span id="totalKilowatts"></span> 
+                kW per month &nbsp; <strong>Total Cost:</strong> $<span id="totalCost"></span> per month</p>
+        </div>
+        
+        <div id="messageContainer">
+            <div id="messageBox">
+                <!-- The message will be generated here by the JavaScript -->
+            </div>
+            <div id="chartContainer">
+                <canvas id="totalSpendingChart"></canvas>
+            </div>            
+            <div id="imageContainer">
+                <img id="resultImage" alt="Result Image">
+            </div>
+        </div>
+
+        <!-- Add the suggestion button -->
+        <div id="suggestionContainer">
+            <button id="suggestionButton">Get Suggestions</button>
+            <button id="saveResultsButton">Save Results</button>
+            <button id="moreSuggestionsButton">Need more suggestions?</button>
+            <button id="viewHistoryButton">View History</button>
+            <button id="goBackButton">Make another calculation</button>
+        </div>
+   
+
+      
+    <script src="script3.js"></script>
+</body>
+</html>

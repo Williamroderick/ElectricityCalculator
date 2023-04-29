@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electricity Usage Calculator</title>
+    <link rel="stylesheet" href="styles2.css" />
+  </head>
+  <body>
+    <a href="index.html">
+      <img id="logo" src="LOLZ.png" alt="Logo">
+    </a>
+    <div class="background-animation">
+      <video class="background-video" autoplay muted loop>
+        <source src="https://v4.cdnpk.net/videvo_files/video/free/video0485/large_watermarked/_import_61a737dc140736.33998648_FPpreview.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="container">
+      <h1>Electricity Usage Calculator</h1>
+    <form id="energyForm">
+      <fieldset>
+        <legend>Select appliances</legend>
+        <div class="form-group">
+          <input type="checkbox" id="lights" name="lights" />
+          <label for="lights">Lights</label><br />
+          <input type="checkbox" id="fridge" name="fridge" />
+          <label for="fridge">Fridge</label><br />
+          <input
+            type="checkbox"
+            id="desktop_computer"
+            name="desktop_computer"
+          />
+          <label for="desktop_computer">Desktop Computer</label><br />
+          <input type="checkbox" id="stove" name="stove" />
+          <label for="stove">Stove</label><br />
+          <input type="checkbox" id="microwave" name="microwave" />
+          <label for="microwave">Microwave</label><br />
+          <input type="checkbox" id="heater" name="heater" />
+          <label for="heater">Heater</label><br />
+          <input
+            type="checkbox"
+            id="smartphone_charger"
+            name="smartphone_charger"
+          />
+          <label for="smartphone_charger">Smartphone Charger</label><br />
+          <input type="checkbox" id="tablet_charger" name="tablet_charger" />
+          <label for="tablet_charger">Tablet Charger</label><br />
+          <input type="checkbox" id="tv" name="tv" />
+          <label for="tv">TV</label><br />
+          <input type="checkbox" id="electric_fan" name="electric_fan" />
+          <label for="electric_fan">Electric Fan</label><br />
+          <input type="checkbox" id="rice_cooker" name="rice_cooker" />
+          <label for="rice_cooker">Rice Cooker</label><br />
+          <input type="checkbox" id="air_conditioner" name="air_conditioner" />
+          <label for="air_conditioner">Air Conditioner</label><br />
+        </div>
+      </fieldset>
+      <label for="zipcodeSelect">Choose a Zipcode:</label>
+      <select id="zipcodeSelect">
+        <option value="94523" selected>94523</option>
+        <!-- Add more options here -->
+      </select>      
+    <div class="form-group">
+      <label for="price_goal">Price Goal (USD):</label>
+      <input type="number" id="price_goal" name="price_goal" required>
+    </div>
+
+    <button type="submit">Next</button>
+  </form>
+  <div id="result"></div>
+  <script src="script1.js"></script>
+</body>
+</html>
